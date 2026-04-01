@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import TestimonialMarquee from "@/components/ui/testimonial-marquee";
 
 // Real Unsplash Indian people images
 const IMAGES = {
@@ -38,7 +39,7 @@ const fadeUp = { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-      
+
       {/* 1. BANNER (Hero) */}
       <section className="relative h-screen min-h-[600px] flex items-center pt-20">
         <div className="absolute inset-0 z-0">
@@ -206,67 +207,150 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. IMAGE CAROUSEL */}
-      <section className="py-20 bg-[#f8fafc] overflow-hidden border-y border-gray-100">
+      {/* 5. IMAGE GALLERY — manual horizontal scroll */}
+      <section className="py-20 bg-[#f8fafc] border-y border-gray-100">
         <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-10">
           <span className="text-[#14b8a6] text-xs uppercase tracking-[0.3em] font-bold">Moments In Action</span>
           <h2 className="font-serif text-4xl font-bold text-[#0f172a] mt-2">Impact Gallery</h2>
         </div>
-        <div className="relative w-full flex overflow-x-hidden group">
-          <style dangerouslySetInnerHTML={{__html: `
-            @keyframes scroll {
-              0% { transform: translateX(0); }
-              100% { transform: translateX(calc(-300px * 18 - 1rem * 18)); }
-            }
-            .animate-scroll {
-              display: flex;
-              width: calc((300px * 36) + (1rem * 36));
-              animation: scroll 40s linear infinite;
-            }
-            .group:hover .animate-scroll {
-              animation-play-state: paused;
-            }
-          `}} />
-          <div className="animate-scroll gap-4 px-2">
-            {[...GALLERY_IMAGES, ...GALLERY_IMAGES].map((src, i) => (
-              <div key={i} className="relative w-[300px] h-[350px] shrink-0 rounded-2xl overflow-hidden shadow-lg border border-black/5">
-                <Image src={'/gallery/' + src} alt="Gallery moment" fill className="object-cover hover:scale-105 transition-transform duration-700" unoptimized />
-              </div>
-            ))}
-          </div>
+        <style dangerouslySetInnerHTML={{ __html: `
+          .gallery-scroll::-webkit-scrollbar { display: none; }
+          .gallery-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+          .gallery-card {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+          }
+          .gallery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.13);
+          }
+        `}} />
+        <div className="gallery-scroll flex gap-4 overflow-x-auto scroll-smooth px-6 md:px-12 pb-4">
+          {GALLERY_IMAGES.map((src, i) => (
+            <div key={i} className="gallery-card relative w-[300px] h-[350px] shrink-0 rounded-2xl overflow-hidden shadow-md border border-black/8 ring-1 ring-white">
+              <Image src={'/gallery/' + src} alt="Gallery moment" fill className="object-cover" unoptimized />
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* 6. SOCIAL MEDIA (Instagram/Facebook/Youtube Feed Preview) */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center">
-          <span className="text-[#14b8a6] text-xs uppercase tracking-[0.3em] font-bold">Connect With Us</span>
-          <h2 className="font-serif text-4xl font-bold text-[#0f172a] mt-2 mb-6">Social Media</h2>
-          <p className="text-[#64748b] max-w-2xl mx-auto mb-10">Follow our daily activities and see our latest social media posts.</p>
-          
-          <div className="flex justify-center gap-6 mb-12">
-            <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer" className="w-14 h-14 rounded-full bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-            </a>
-            <a href="https://www.facebook.com/p/Student-Union-for-Nation-SUN-100067494638158/" target="_blank" rel="noreferrer" className="w-14 h-14 rounded-full bg-[#1877F2] flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
-            </a>
-            <a href="https://www.youtube.com/channel/UCgnDBij5skvCSfHEMBcUYKQ" target="_blank" rel="noreferrer" className="w-14 h-14 rounded-full bg-[#FF0000] flex items-center justify-center shadow-md hover:shadow-xl hover:-translate-y-1 transition-all">
-               <svg width="24" height="24" viewBox="0 0 24 24" fill="white" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-            </a>
+
+      {/* 6. TESTIMONIALS (replacing social media connect section) */}
+      <TestimonialMarquee />
+
+      {/* 7. SOCIAL MEDIA BENTO (Wild Layout – Awwwards/Dribbble style) */}
+      <section className="py-24 bg-[#f8fafc] overflow-hidden">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          {/* Header row */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
+            <div>
+              <span className="text-[#14b8a6] text-xs uppercase tracking-[0.3em] font-bold">Live Updates</span>
+              <h2 className="font-serif text-4xl md:text-5xl font-bold text-[#0f172a] mt-2 leading-tight">
+                We&apos;re out there,<br />
+                <span className="text-[#f59e0b]">every single day.</span>
+              </h2>
+            </div>
+            <div className="flex flex-col gap-3">
+              <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer"
+                className="flex items-center gap-3 px-5 py-3 rounded-full text-sm font-bold text-white transition-transform hover:-translate-y-0.5 shadow-lg"
+                style={{ background: "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #bc1888 75%, #833ab4 100%)" }}>
+                {/* Instagram official SVG */}
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                @student_union_for_nation
+              </a>
+              <a href="https://www.youtube.com/channel/UCgnDBij5skvCSfHEMBcUYKQ" target="_blank" rel="noreferrer"
+                className="flex items-center gap-3 px-5 py-3 rounded-full bg-[#FF0000] text-sm font-bold text-white transition-transform hover:-translate-y-0.5 shadow-lg">
+                {/* YouTube official SVG */}
+                <svg width="20" height="14" viewBox="0 0 461.001 461.001" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" /></svg>
+                SUN Foundation YouTube
+              </a>
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {["/gallery/IMG_20260401_163158.jpg", "/gallery/IMG_20260401_163215.jpg", "/gallery/IMG_20260401_163358.jpg", "/gallery/IMG_20260401_163436.jpg"].map((src, i) => (
-              <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer" key={i} className="relative aspect-square rounded-xl overflow-hidden group shadow-md block">
-                <Image src={src} alt="Latest Social media post - Indian children" fill className="object-cover group-hover:scale-110 transition-transform duration-500" unoptimized />
-                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <div className="scale-75 group-hover:scale-100 transition-transform bg-white/20 p-3 rounded-full backdrop-blur-sm">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                  </div>
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-12 grid-rows-auto gap-4">
+
+            {/* Hero large post */}
+            <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer"
+              className="md:col-span-6 md:row-span-2 relative rounded-3xl overflow-hidden group shadow-xl block" style={{ minHeight: 480 }}>
+              <Image src="/gallery/IMG_20260401_163158.jpg" alt="SUN Foundation community event" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              {/* Platform badge */}
+              <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md"
+                style={{ background: "linear-gradient(135deg, rgba(240,148,51,0.9), rgba(188,24,136,0.9))" }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                <span className="text-white text-xs font-semibold">Instagram</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <p className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-2">Featured Post</p>
+                <p className="text-white text-xl font-bold leading-snug">Lighting up futures — one classroom at a time. ✨📚</p>
+                <div className="flex items-center gap-4 mt-3">
+                  <span className="text-white/70 text-xs flex items-center gap-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    2.4K
+                  </span>
+                  <span className="text-white/70 text-xs flex items-center gap-1">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    148
+                  </span>
                 </div>
-              </a>
-            ))}
+              </div>
+            </a>
+
+            {/* Top right: Facebook wide card */}
+            <a href="https://www.facebook.com/p/Student-Union-for-Nation-SUN-100067494638158/" target="_blank" rel="noreferrer"
+              className="md:col-span-6 relative rounded-3xl overflow-hidden group shadow-xl block" style={{ minHeight: 228 }}>
+              <Image src="/gallery/IMG_20260401_163215.jpg" alt="SUN Foundation Facebook update" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+              <div className="absolute top-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1877F2]/90 backdrop-blur-md">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
+                <span className="text-white text-xs font-semibold">Facebook</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <p className="text-white font-bold text-base leading-snug">Health camp day — free check-ups for 500+ villagers. 💊🩺</p>
+              </div>
+            </a>
+
+            {/* Bottom right: two small square cards */}
+            <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer"
+              className="md:col-span-3 relative rounded-3xl overflow-hidden group shadow-lg block" style={{ minHeight: 228 }}>
+              <Image src="/gallery/IMG_20260401_163358.jpg" alt="SUN Foundation Instagram" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full backdrop-blur-md"
+                style={{ background: "linear-gradient(135deg, rgba(240,148,51,0.85), rgba(188,24,136,0.85))" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+                <span className="text-white text-[10px] font-semibold">Instagram</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <p className="text-white text-sm font-bold leading-snug">Tree-planting drive 🌱</p>
+              </div>
+            </a>
+
+            <a href="https://www.youtube.com/channel/UCgnDBij5skvCSfHEMBcUYKQ" target="_blank" rel="noreferrer"
+              className="md:col-span-3 relative rounded-3xl overflow-hidden group shadow-lg block" style={{ minHeight: 228 }}>
+              <Image src="/gallery/IMG_20260401_163436.jpg" alt="SUN Foundation YouTube" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#FF0000]/85 backdrop-blur-md">
+                <svg width="14" height="10" viewBox="0 0 461 461" fill="white"><path d="M365.257 67.393H95.744C42.866 67.393 0 110.259 0 163.137v134.728c0 52.878 42.866 95.744 95.744 95.744h269.513c52.878 0 95.744-42.866 95.744-95.744V163.137c0-52.878-42.866-95.744-95.744-95.744zm-64.751 169.663l-126.06 60.123c-3.359 1.602-7.239-.847-7.239-4.568V168.607c0-3.774 3.982-6.22 7.348-4.514l126.06 63.881c3.748 1.899 3.683 7.274-.109 9.082z" /></svg>
+                <span className="text-white text-[10px] font-semibold">YouTube</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <p className="text-white text-sm font-bold leading-snug">Watch our story ▶️</p>
+              </div>
+            </a>
+
+          </div>
+
+          {/* Bottom CTA strip */}
+          <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4 px-6 py-5 rounded-2xl bg-[#0f172a]">
+            <p className="text-white font-bold text-lg">
+              Follow us <span className="text-[#14b8a6]">@student_union_for_nation</span> for daily updates
+            </p>
+            <a href="https://www.instagram.com/student_union_for_nation/" target="_blank" rel="noreferrer"
+              className="flex items-center gap-2 px-6 py-3 rounded-full font-bold text-white text-sm transition-transform hover:-translate-y-0.5 shadow-lg shrink-0"
+              style={{ background: "linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #bc1888 75%, #833ab4 100%)" }}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" /></svg>
+              Follow on Instagram
+            </a>
           </div>
         </div>
       </section>

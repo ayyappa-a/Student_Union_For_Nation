@@ -96,6 +96,66 @@ export default function Volunteer() {
                 </div>
               ))}
             </div>
+
+            {/* PERKS SECTION */}
+            <div className="mt-14">
+              <h3 className="font-serif text-2xl font-bold mb-2 text-foreground">Why Volunteer With Us?</h3>
+              <p className="text-muted-foreground text-sm mb-8">Joining SUN Foundation is more than giving time — it&apos;s a transformative journey.</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    emoji: "🌱",
+                    color: "#14b8a6",
+                    glow: "rgba(20,184,166,0.15)",
+                    title: "Make Real Impact",
+                    desc: "See the direct results of your efforts in transformed communities.",
+                  },
+                  {
+                    emoji: "🔗",
+                    color: "#f59e0b",
+                    glow: "rgba(245,158,11,0.15)",
+                    title: "Build Networks",
+                    desc: "Connect with like-minded individuals and build lasting friendships.",
+                  },
+                  {
+                    emoji: "💼",
+                    color: "#8b5cf6",
+                    glow: "rgba(139,92,246,0.15)",
+                    title: "Develop Skills",
+                    desc: "Gain valuable experience and develop new professional skills.",
+                  },
+                  {
+                    emoji: "🏅",
+                    color: "#ec4899",
+                    glow: "rgba(236,72,153,0.15)",
+                    title: "Recognition",
+                    desc: "Receive certificates and recognition for your valuable contributions.",
+                  },
+                ].map((perk, i) => (
+                  <div
+                    key={i}
+                    className="group relative p-5 rounded-2xl border border-border bg-surface shadow-sm hover:-translate-y-1 hover:shadow-lg transition-all duration-300 overflow-hidden"
+                    style={{ boxShadow: `0 0 0 1px rgba(0,0,0,0.05)` }}
+                  >
+                    {/* Subtle gradient accent corner */}
+                    <div
+                      className="absolute top-0 left-0 w-1 h-full rounded-l-2xl"
+                      style={{ backgroundColor: perk.color }}
+                    />
+                    {/* Glow bg on hover */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+                      style={{ background: `radial-gradient(circle at top left, ${perk.glow}, transparent 70%)` }}
+                    />
+                    <div className="relative">
+                      <div className="text-2xl mb-3">{perk.emoji}</div>
+                      <h4 className="font-bold text-foreground text-base mb-1.5" style={{ color: perk.color }}>{perk.title}</h4>
+                      <p className="text-muted-foreground text-sm leading-relaxed">{perk.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
 
           {/* Right Column: Application Form */}
