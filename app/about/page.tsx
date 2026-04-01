@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Users, Target, Shield, Heart } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function About() {
   return (
@@ -29,8 +30,19 @@ export default function About() {
       <section className="bg-surface py-24 mb-24 border-y border-border">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-            <div className="aspect-square bg-muted rounded-2xl relative overflow-hidden shadow-lg">
-              <div className="absolute inset-0 bg-secondary/10"></div>
+            <div className="aspect-square rounded-2xl relative overflow-hidden shadow-xl">
+              <Image
+                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80&auto=format&fit=crop"
+                alt="Children at a school, the moment that sparked SUN Foundation"
+                fill
+                className="object-cover hover:scale-105 transition-transform duration-700"
+                unoptimized
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+              <div className="absolute bottom-6 left-6 right-6 text-white">
+                <p className="font-serif text-xl font-bold leading-snug">&ldquo;Who are you?&rdquo;</p>
+                <p className="text-white/70 text-sm mt-1">— The question that started it all, 2014</p>
+              </div>
             </div>
             <div>
                 <h2 className="font-serif text-3xl font-bold text-foreground mb-6">Our Genesis: &quot;The Spark&quot;</h2>

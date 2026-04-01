@@ -11,8 +11,8 @@ const IMAGES = {
   cause1: "https://images.unsplash.com/photo-1542810634-71277d95dcbb?w=600&q=80&auto=format&fit=crop",
   cause2: "https://images.unsplash.com/photo-1529390079861-591de354faf5?w=600&q=80&auto=format&fit=crop",
   cause3: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=600&q=80&auto=format&fit=crop",
-  about1: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=700&q=80&auto=format&fit=crop",
-  about2: "https://images.unsplash.com/photo-1597733336794-12d05021d510?w=700&q=80&auto=format&fit=crop",
+  about1: "https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=700&q=80&auto=format&fit=crop",
+  about2: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=700&q=80&auto=format&fit=crop",
   social1: "https://images.unsplash.com/photo-1608111149732-8b8f16c8a7df?w=600&q=80&auto=format&fit=crop",
   social2: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&q=80&auto=format&fit=crop",
   social3: "https://images.unsplash.com/photo-1508433957232-3107f5fd5995?w=600&q=80&auto=format&fit=crop",
@@ -121,13 +121,24 @@ export default function Home() {
                 Read Our Full Story <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </motion.div>
-            {/* Images */}
             <motion.div {...fadeUp} transition={{ duration: 0.6, delay: 0.2 }} className="grid grid-cols-2 gap-4">
               <div className="relative h-64 rounded-lg overflow-hidden shadow-lg">
-                <Image src={IMAGES.about1} alt="Indian children in classroom" fill className="object-cover" unoptimized />
+                <Image
+                  src="https://images.unsplash.com/photo-1599059813005-11265ba4b4ce?w=700&q=80&auto=format&fit=crop"
+                  alt="Children eating food at donation camp"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
               </div>
               <div className="relative h-64 mt-8 rounded-lg overflow-hidden shadow-lg">
-                <Image src={IMAGES.about2} alt="Indian woman helping kids" fill className="object-cover" unoptimized />
+                <Image
+                  src="https://images.unsplash.com/photo-1607453998774-d533f65dac99?w=700&q=80&auto=format&fit=crop"
+                  alt="Children holding drawings and pictures"
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
               </div>
             </motion.div>
           </div>
@@ -164,7 +175,7 @@ export default function Home() {
                     <span className="font-mono font-bold text-[#0f172a]">{c.raised} raised</span>
                     <span className="text-[#64748b]">of {c.goal}</span>
                   </div>
-                  <Link href="/contact" className="inline-flex items-center text-sm font-bold uppercase tracking-wide text-white px-5 py-2 rounded transition-opacity hover:opacity-90" style={{ backgroundColor: c.color }}>
+                  <Link href="/donate" className="inline-flex items-center text-sm font-bold uppercase tracking-wide text-white px-5 py-2 rounded transition-opacity hover:opacity-90" style={{ backgroundColor: c.color }}>
                     Support Us <ArrowRight className="w-4 h-4 ml-1" />
                   </Link>
                 </div>
