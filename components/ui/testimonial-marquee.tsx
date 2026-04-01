@@ -189,7 +189,7 @@ export default function TestimonialMarquee() {
             Stories of <span className="text-[#f59e0b]">Impact</span>
           </h2>
           <p className="text-white/50 max-w-xl mx-auto text-base">
-            Hear directly from the lives we've touched — students, parents, and community leaders.
+            Hear directly from the lives we&apos;ve touched — students, parents, and community leaders.
           </p>
         </div>
         <div className="flex flex-col gap-6">
